@@ -1,0 +1,26 @@
+# Local tile images (too large for git)
+tiles/
+
+# Source map images
+source-maps/
+
+# Vehicle data (JSON cache)
+data/
+
+# Windows system file
+nul
+
+# Node
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Claude Code
+.claude/

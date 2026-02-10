@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUBG 낙하산 계산기</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 헤더 -->
+    <header id="header">
+        <div class="header-left">
+            <h1 class="logo">PUBG 낙하산 계산기</h1>
+        </div>
+        <div class="header-maps">
+            <button class="map-tab active" data-map="erangel">에란겔</button>
+            <button class="map-tab" data-map="miramar">미라마</button>
+            <button class="map-tab" data-map="sanhok">사녹</button>
+            <button class="map-tab" data-map="vikendi">비켄디</button>
+            <button class="map-tab" data-map="taego">태이고</button>
+            <button class="map-tab" data-map="rondo">론도</button>
+        </div>
+        <div class="header-right">
+            <span id="map-info" class="map-info">에란겔 (8×8km)</span>
+        </div>
+    </header>
+
+    <!-- 맵 컨테이너 -->
+    <div id="map"></div>
+
+    <!-- 좌측 도구 패널 -->
+    <div id="tool-panel" class="tool-panel">
+        <button id="panel-toggle" class="panel-toggle">◀</button>
+
+        <!-- 비행경로 섹션 -->
+        <div class="panel-section">
+            <h3 class="section-title">비행경로</h3>
+            <button id="btn-flight-path" class="btn-tool">
+                <span class="btn-icon">✈</span> 비행경로 설정
+            </button>
+            <div id="flight-status" class="status-text"></div>
+        </div>
+
+        <!-- 낙하산 섹션 -->
+        <div class="panel-section">
+            <h3 class="section-title">낙하산 계산</h3>
+            <button id="btn-landing" class="btn-tool">
+                <span class="btn-icon">🎯</span> 착지 지점 설정
+            </button>
+            <div id="parachute-status" class="status-text"></div>
+
+            <div class="distance-selector">
+                <label class="section-subtitle">낙하 거리 (다중 선택)</label>
+                <div class="dropdown-multi" id="distance-dropdown">
+                    <button class="dropdown-toggle" id="distance-toggle">1000m 선택됨 ▾</button>
+                    <div class="dropdown-menu" id="distance-menu">
+                        <label class="dropdown-item"><input type="checkbox" value="500"> 500m</label>
+                        <label class="dropdown-item"><input type="checkbox" value="600"> 600m</label>
+                        <label class="dropdown-item"><input type="checkbox" value="700"> 700m</label>
+                        <label class="dropdown-item"><input type="checkbox" value="800"> 800m</label>
+                        <label class="dropdown-item"><input type="checkbox" value="900"> 900m</label>
+                        <label class="dropdown-item"><input type="checkbox" value="1000" checked> 1000m</label>
+                        <label class="dropdown-item"><input type="checkbox" value="1100"> 1100m</label>
+                        <label class="dropdown-item"><input type="checkbox" value="1200"> 1200m</label>
+                        <label class="dropdown-item"><input type="checkbox" value="1300"> 1300m</label>
+                        <label class="dropdown-item"><input type="checkbox" value="1400"> 1400m</label>
+                        <label class="dropdown-item"><input type="checkbox" value="1500"> 1500m</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 초기화 -->
+        <div class="panel-section">
+            <button id="btn-reset" class="btn-reset">초기화</button>
+        </div>
+    </div>
+
+    <!-- 좌표 표시 -->
+    <div id="coord-bar" class="coord-bar">
+        <span id="coord-display">0m, 0m</span>
+    </div>
+
+    <!-- 결과 패널 -->
+    <div id="result-panel" class="result-panel" style="display:none">
+        <div id="result-content"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/flightpath.js"></script>
+    <script src="js/parachute.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

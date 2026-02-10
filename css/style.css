@@ -1,0 +1,619 @@
+/* ===== 기본 스타일 ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #0a0a1a;
+    color: #e0e0e0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* ===== 헤더 ===== */
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: rgba(15, 15, 35, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(226, 183, 20, 0.3);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    z-index: 1000;
+    gap: 16px;
+}
+
+.header-left {
+    flex-shrink: 0;
+}
+
+.logo {
+    font-size: 16px;
+    font-weight: 700;
+    color: #e2b714;
+    white-space: nowrap;
+}
+
+.header-maps {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    flex: 1;
+    scrollbar-width: none;
+}
+
+.header-maps::-webkit-scrollbar {
+    display: none;
+}
+
+.map-tab {
+    padding: 6px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #aaa;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.map-tab:hover {
+    background: rgba(226, 183, 20, 0.15);
+    color: #e2b714;
+    border-color: rgba(226, 183, 20, 0.4);
+}
+
+.map-tab.active {
+    background: rgba(226, 183, 20, 0.2);
+    color: #e2b714;
+    border-color: #e2b714;
+}
+
+.header-right {
+    flex-shrink: 0;
+}
+
+.map-info {
+    font-size: 12px;
+    color: #888;
+}
+
+/* ===== 맵 ===== */
+#map {
+    position: fixed;
+    top: 50px;
+    background: #0a0a1a;
+    /* width, height, left는 JS에서 동적으로 정사각형 유지 */
+}
+
+/* 그리드 라벨 */
+.grid-label {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Noto Sans KR', monospace;
+    font-weight: 500;
+    white-space: nowrap;
+    text-shadow: 0 0 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.5);
+}
+
+/* Leaflet 다크 테마 오버라이드 */
+.leaflet-control-zoom a {
+    background: rgba(15, 15, 35, 0.9) !important;
+    color: #e0e0e0 !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.leaflet-control-zoom a:hover {
+    background: rgba(226, 183, 20, 0.3) !important;
+    color: #e2b714 !important;
+}
+
+/* ===== 도구 패널 ===== */
+.tool-panel {
+    position: fixed;
+    top: 60px;
+    left: 10px;
+    width: 260px;
+    max-height: calc(100vh - 80px);
+    background: rgba(15, 15, 35, 0.92);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px;
+    z-index: 999;
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: transform 0.3s ease;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.2) transparent;
+}
+
+.tool-panel.collapsed {
+    transform: translateX(-270px);
+}
+
+.panel-toggle {
+    position: absolute;
+    top: 8px;
+    right: -30px;
+    width: 28px;
+    height: 28px;
+    background: rgba(15, 15, 35, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 0 4px 4px 0;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.panel-toggle:hover {
+    color: #e2b714;
+}
+
+.panel-section {
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.panel-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.section-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #e2b714;
+    margin-bottom: 8px;
+}
+
+.section-subtitle {
+    font-size: 12px;
+    color: #aaa;
+    display: block;
+    margin-bottom: 6px;
+    margin-top: 8px;
+}
+
+/* ===== 버튼 ===== */
+.btn-tool {
+    width: 100%;
+    padding: 8px 12px;
+    background: rgba(226, 183, 20, 0.15);
+    border: 1px solid rgba(226, 183, 20, 0.3);
+    border-radius: 6px;
+    color: #e2b714;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.btn-tool:hover {
+    background: rgba(226, 183, 20, 0.25);
+    border-color: #e2b714;
+}
+
+.btn-tool.active {
+    background: rgba(226, 183, 20, 0.35);
+    border-color: #e2b714;
+    color: #fff;
+    box-shadow: 0 0 12px rgba(226, 183, 20, 0.4);
+    animation: btn-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes btn-pulse {
+    0%, 100% { box-shadow: 0 0 8px rgba(226, 183, 20, 0.3); }
+    50% { box-shadow: 0 0 18px rgba(226, 183, 20, 0.6); }
+}
+
+.btn-tool.complete {
+    background: rgba(0, 200, 100, 0.15);
+    border-color: rgba(0, 200, 100, 0.5);
+    color: #00c864;
+}
+
+.btn-tool.complete .btn-icon {
+    display: none;
+}
+
+.btn-tool.complete::before {
+    content: '✓';
+    font-size: 14px;
+    margin-right: 4px;
+}
+
+.btn-icon {
+    font-size: 16px;
+}
+
+.btn-reset {
+    width: 100%;
+    padding: 8px 12px;
+    background: rgba(244, 67, 54, 0.15);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+    border-radius: 6px;
+    color: #f44336;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    transition: all 0.2s;
+}
+
+.btn-reset:hover {
+    background: rgba(244, 67, 54, 0.25);
+    border-color: #f44336;
+}
+
+/* ===== 상태 텍스트 ===== */
+.status-text {
+    font-size: 11px;
+    color: #888;
+    margin-top: 6px;
+    min-height: 16px;
+}
+
+/* ===== 거리 선택 (드롭다운 다중 선택) ===== */
+.distance-selector {
+    margin-top: 8px;
+}
+
+.dropdown-multi {
+    position: relative;
+}
+
+.dropdown-toggle {
+    width: 100%;
+    padding: 7px 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    color: #e0e0e0;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    text-align: left;
+    transition: all 0.2s;
+}
+
+.dropdown-toggle:hover {
+    border-color: rgba(226, 183, 20, 0.4);
+}
+
+.dropdown-toggle.open {
+    border-color: #e2b714;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(15, 15, 35, 0.97);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    max-height: 180px;
+    overflow-y: auto;
+    z-index: 1001;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.2) transparent;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    font-size: 12px;
+    color: #ccc;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.dropdown-item:hover {
+    background: rgba(226, 183, 20, 0.1);
+}
+
+.dropdown-item input[type="checkbox"] {
+    accent-color: #e2b714;
+}
+
+.dropdown-menu::-webkit-scrollbar {
+    width: 4px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+}
+
+/* ===== 체크박스 ===== */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.checkbox-label input[type="checkbox"] {
+    accent-color: #e2b714;
+}
+
+.vehicle-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.vehicle-filter-item {
+    font-size: 12px;
+    padding: 3px 0;
+}
+
+.filter-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+/* ===== 좌표 표시 ===== */
+.coord-bar {
+    position: fixed;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(15, 15, 35, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: #aaa;
+    z-index: 999;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ===== 결과 패널 ===== */
+.result-panel {
+    position: fixed;
+    bottom: 40px;
+    right: 10px;
+    width: 280px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    background: rgba(15, 15, 35, 0.92);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 8px;
+    padding: 12px;
+    z-index: 999;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,255,136,0.2) transparent;
+}
+
+.result-header {
+    font-size: 14px;
+    font-weight: 500;
+    color: #00ff88;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+}
+
+.result-item {
+    margin-bottom: 10px;
+    padding: 8px;
+    background: rgba(0, 255, 136, 0.05);
+    border-radius: 4px;
+}
+
+.result-item:last-child {
+    margin-bottom: 0;
+}
+
+.result-item-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #00ff88;
+    margin-bottom: 4px;
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 2px 0;
+}
+
+.result-label {
+    color: #888;
+}
+
+.result-value {
+    color: #e0e0e0;
+    font-variant-numeric: tabular-nums;
+}
+
+.result-warning {
+    color: #ff9800;
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+    padding: 8px;
+}
+
+/* ===== 맵 마커 스타일 ===== */
+.flight-marker {
+    background: none !important;
+    border: none !important;
+}
+
+.flight-marker-dot {
+    width: 28px;
+    height: 28px;
+    background: #ffcc00;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a2e;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+    cursor: grab;
+}
+
+.plane-icon {
+    background: none !important;
+    border: none !important;
+}
+
+.plane-icon-inner {
+    font-size: 24px;
+    filter: drop-shadow(0 0 6px rgba(255, 204, 0, 0.8));
+    text-shadow: 0 0 10px rgba(255, 204, 0, 0.6);
+}
+
+.landing-marker {
+    background: none !important;
+    border: none !important;
+}
+
+.landing-marker-dot {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    cursor: grab;
+    filter: drop-shadow(0 0 6px rgba(255, 0, 0, 0.6));
+}
+
+.jump-marker {
+    background: none !important;
+    border: none !important;
+}
+
+.jump-marker-dot {
+    width: 26px;
+    height: 26px;
+    background: #00ff88;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1a1a2e;
+    box-shadow: 0 0 12px rgba(0, 255, 136, 0.6);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 12px rgba(0, 255, 136, 0.6); }
+    50% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.9); }
+}
+
+/* ===== 팝업 ===== */
+.dark-popup .leaflet-popup-content-wrapper {
+    background: rgba(15, 15, 35, 0.95);
+    color: #e0e0e0;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.dark-popup .leaflet-popup-tip {
+    background: rgba(15, 15, 35, 0.95);
+}
+
+.vehicle-popup {
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 768px) {
+    .tool-panel {
+        width: 220px;
+    }
+
+    .header-maps {
+        gap: 2px;
+    }
+
+    .map-tab {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+
+    .logo {
+        font-size: 14px;
+    }
+
+    .result-panel {
+        width: 240px;
+        bottom: 36px;
+        right: 6px;
+    }
+
+    .tool-panel.collapsed + #map,
+    #map {
+        /* JS handles responsive sizing */
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        display: none;
+    }
+
+    .tool-panel {
+        width: 200px;
+        left: 6px;
+    }
+}
+
+/* ===== 스크롤바 ===== */
+.tool-panel::-webkit-scrollbar {
+    width: 4px;
+}
+
+.tool-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tool-panel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+}
