@@ -604,6 +604,159 @@ body {
     }
 }
 
+/* ===== 전적 검색 ===== */
+.stats-search-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.stats-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 7px 10px;
+    color: #e0e0e0;
+    font-size: 13px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.stats-input:focus {
+    border-color: #e2b714;
+}
+
+.stats-input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.btn-stats-search {
+    background: rgba(226, 183, 20, 0.25);
+    border: 1px solid rgba(226, 183, 20, 0.5);
+    border-radius: 6px;
+    color: #e2b714;
+    padding: 7px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-stats-search:hover {
+    background: rgba(226, 183, 20, 0.4);
+}
+
+.stats-platform {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 6px 10px;
+    color: #e0e0e0;
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 8px;
+}
+
+.stats-platform option {
+    background: #1a1a2e;
+    color: #e0e0e0;
+}
+
+.stats-mode-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.stats-mode-tab {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 3px 8px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.stats-mode-tab.active {
+    background: rgba(226, 183, 20, 0.2);
+    border-color: rgba(226, 183, 20, 0.5);
+    color: #e2b714;
+}
+
+.stats-result {
+    min-height: 20px;
+}
+
+.stats-loading {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+    padding: 16px 0;
+}
+
+.stats-error {
+    text-align: center;
+    color: #ff6b6b;
+    font-size: 13px;
+    padding: 12px 0;
+}
+
+.stats-player-name {
+    text-align: center;
+    color: #e2b714;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(226, 183, 20, 0.2);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    padding: 8px 6px;
+    text-align: center;
+}
+
+.stat-value {
+    color: #00ff88;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.stat-label {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 11px;
+    margin-top: 2px;
+}
+
+.stats-detail {
+    display: flex;
+    justify-content: space-around;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 11px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
 /* ===== 스크롤바 ===== */
 .tool-panel::-webkit-scrollbar {
     width: 4px;

@@ -89,6 +89,7 @@
     function initModules() {
         FlightPath.init(map, currentMapConfig, onFlightPathChange);
         Parachute.init(map, currentMapConfig, () => FlightPath.getPath());
+        Stats.init();
     }
 
     function initUI() {

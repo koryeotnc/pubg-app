@@ -24,3 +24,5 @@ desktop.ini
 
 # Claude Code
 .claude/
+
+.vercel
