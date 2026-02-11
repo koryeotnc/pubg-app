@@ -649,46 +649,52 @@ body {
     background: rgba(226, 183, 20, 0.4);
 }
 
-.stats-platform {
-    width: 100%;
+.stats-options-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.stats-select {
+    flex: 1;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
-    padding: 6px 10px;
+    padding: 5px 8px;
     color: #e0e0e0;
     font-size: 12px;
     font-family: inherit;
     cursor: pointer;
     outline: none;
-    margin-bottom: 8px;
 }
 
-.stats-platform option {
+.stats-select option {
     background: #1a1a2e;
     color: #e0e0e0;
 }
 
-.stats-mode-tabs {
+.stats-perspective-toggle {
     display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    margin-bottom: 8px;
+    gap: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 2px;
 }
 
-.stats-mode-tab {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    color: rgba(255, 255, 255, 0.5);
-    padding: 3px 8px;
-    font-size: 11px;
+.perspective-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 500;
     cursor: pointer;
+    border-radius: 4px;
     transition: all 0.2s;
 }
 
-.stats-mode-tab.active {
-    background: rgba(226, 183, 20, 0.2);
-    border-color: rgba(226, 183, 20, 0.5);
+.perspective-btn.active {
+    background: rgba(226, 183, 20, 0.3);
     color: #e2b714;
 }
 
@@ -715,46 +721,109 @@ body {
     color: #e2b714;
     font-size: 14px;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     padding-bottom: 6px;
     border-bottom: 1px solid rgba(226, 183, 20, 0.2);
 }
 
-.stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-    margin-bottom: 8px;
+.stats-section-header {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
 }
 
-.stat-item {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+.ranked-header {
+    background: rgba(100, 60, 180, 0.3);
+    color: #c49bff;
+    border-left: 3px solid #9b59b6;
+}
+
+.normal-header {
+    background: rgba(100, 100, 100, 0.2);
+    color: rgba(255, 255, 255, 0.6);
+    border-left: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.stats-cards-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.stats-mode-card {
     border-radius: 6px;
-    padding: 8px 6px;
+    padding: 8px;
+}
+
+.stats-mode-card.ranked {
+    background: rgba(100, 60, 180, 0.1);
+    border: 1px solid rgba(155, 89, 182, 0.25);
+}
+
+.stats-mode-card.normal {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stats-mode-card.empty {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+    padding: 10px 8px;
+}
+
+.mode-card-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #e0e0e0;
+    margin-bottom: 4px;
+}
+
+.mode-card-record {
+    font-weight: 400;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-left: 4px;
+}
+
+.mode-card-empty {
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 11px;
+    padding: 4px 0;
+}
+
+.mode-card-tier {
+    color: #c49bff;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.mode-card-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2px;
+}
+
+.mode-card-stats > div {
+    flex: 1;
     text-align: center;
 }
 
-.stat-value {
-    color: #00ff88;
-    font-size: 16px;
+.mc-label {
+    display: block;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.mc-value {
+    display: block;
+    font-size: 13px;
     font-weight: 700;
-    line-height: 1.2;
-}
-
-.stat-label {
-    color: rgba(255, 255, 255, 0.45);
-    font-size: 11px;
-    margin-top: 2px;
-}
-
-.stats-detail {
-    display: flex;
-    justify-content: space-around;
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 11px;
-    padding-top: 6px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    color: #00ff88;
 }
 
 /* ===== 스크롤바 ===== */

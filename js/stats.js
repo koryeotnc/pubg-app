@@ -1,53 +1,33 @@
 // PUBG 전적 검색 모듈
 const Stats = (function() {
-    const MODE_LABELS = {
-        'squad': '스쿼드 TPP',
-        'squad-fpp': '스쿼드 FPP',
-        'duo': '듀오 TPP',
-        'duo-fpp': '듀오 FPP',
-        'solo': '솔로 TPP',
-        'solo-fpp': '솔로 FPP'
-    };
-
-    // 기본 모드 순서 (squad TPP 우선)
-    const MODE_ORDER = ['squad', 'squad-fpp', 'duo', 'duo-fpp', 'solo', 'solo-fpp'];
-
     let currentData = null;
-    let currentMode = 'squad';
+    let currentPerspective = 'tpp'; // tpp or fpp
 
     function init() {
-        const searchBtn = document.getElementById('btn-stats-search');
-        const input = document.getElementById('stats-nickname');
-
-        searchBtn.addEventListener('click', doSearch);
-        input.addEventListener('keydown', function(e) {
+        document.getElementById('btn-stats-search').addEventListener('click', doSearch);
+        document.getElementById('stats-nickname').addEventListener('keydown', function(e) {
             if (e.key === 'Enter') doSearch();
         });
 
-        // 모드 탭 이벤트
-        document.getElementById('stats-mode-tabs').addEventListener('click', function(e) {
-            const tab = e.target.closest('.stats-mode-tab');
-            if (!tab) return;
-            const mode = tab.dataset.mode;
-            if (mode && currentData && currentData.modes[mode]) {
-                currentMode = mode;
-                renderModeTabs();
-                renderStats(currentData.modes[mode]);
-            }
+        // TPP/FPP 토글
+        document.querySelector('.stats-perspective-toggle').addEventListener('click', function(e) {
+            const btn = e.target.closest('.perspective-btn');
+            if (!btn) return;
+            currentPerspective = btn.dataset.perspective;
+            document.querySelectorAll('.perspective-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if (currentData) renderAll();
         });
     }
 
     async function doSearch() {
-        const input = document.getElementById('stats-nickname');
-        const name = input.value.trim();
+        const name = document.getElementById('stats-nickname').value.trim();
         if (!name) return;
 
         const platform = document.getElementById('stats-platform').value;
         const resultDiv = document.getElementById('stats-result');
-        const modeTabs = document.getElementById('stats-mode-tabs');
 
         resultDiv.innerHTML = '<div class="stats-loading">검색 중...</div>';
-        modeTabs.innerHTML = '';
 
         try {
             const res = await fetch(`/api/pubg-stats?name=${encodeURIComponent(name)}&platform=${platform}`);
@@ -59,81 +39,95 @@ const Stats = (function() {
             }
 
             currentData = data;
-
-            // 사용 가능한 모드 중 첫 번째를 기본 선택
-            const availableModes = MODE_ORDER.filter(m => data.modes[m]);
-            if (availableModes.length === 0) {
-                resultDiv.innerHTML = '<div class="stats-error">전적 데이터가 없습니다</div>';
-                return;
-            }
-
-            // squad TPP가 있으면 기본, 없으면 첫 번째 모드
-            currentMode = availableModes.includes('squad') ? 'squad' : availableModes[0];
-
-            renderModeTabs();
-            renderStats(data.modes[currentMode]);
+            renderAll();
 
         } catch (err) {
             resultDiv.innerHTML = '<div class="stats-error">서버 연결 실패</div>';
         }
     }
 
-    function renderModeTabs() {
-        const container = document.getElementById('stats-mode-tabs');
-        if (!currentData) return;
+    function renderAll() {
+        const resultDiv = document.getElementById('stats-result');
+        const suffix = currentPerspective === 'fpp' ? '-fpp' : '';
 
-        const availableModes = MODE_ORDER.filter(m => currentData.modes[m]);
-        container.innerHTML = availableModes.map(mode => {
-            const active = mode === currentMode ? 'active' : '';
-            const label = MODE_LABELS[mode] || mode;
-            return `<button class="stats-mode-tab ${active}" data-mode="${mode}">${label}</button>`;
-        }).join('');
+        // 경쟁전 (ranked)
+        const rankedSquad = currentData.ranked['squad' + suffix];
+        const rankedDuo = currentData.ranked['duo' + suffix];
+        const rankedSolo = currentData.ranked['solo' + suffix];
+
+        // 일반 게임 (normal)
+        const normalSquad = currentData.normal['squad' + suffix];
+        const normalDuo = currentData.normal['duo' + suffix];
+        const normalSolo = currentData.normal['solo' + suffix];
+
+        let html = `<div class="stats-player-name">${currentData.name}</div>`;
+
+        // 경쟁전 섹션
+        html += '<div class="stats-section-header ranked-header">경쟁전</div>';
+        html += '<div class="stats-cards-row">';
+        html += renderModeCard('솔로', rankedSolo, true);
+        html += renderModeCard('듀오', rankedDuo, true);
+        html += renderModeCard('스쿼드', rankedSquad, true);
+        html += '</div>';
+
+        // 일반 게임 섹션
+        html += '<div class="stats-section-header normal-header">일반 게임 전적</div>';
+        html += '<div class="stats-cards-row">';
+        html += renderModeCard('솔로', normalSolo, false);
+        html += renderModeCard('듀오', normalDuo, false);
+        html += renderModeCard('스쿼드', normalSquad, false);
+        html += '</div>';
+
+        resultDiv.innerHTML = html;
     }
 
-    function renderStats(stats) {
-        const resultDiv = document.getElementById('stats-result');
+    function renderModeCard(label, stats, isRanked) {
+        if (!stats) {
+            return `
+                <div class="stats-mode-card empty">
+                    <div class="mode-card-title">${label}</div>
+                    <div class="mode-card-empty">기록 없음</div>
+                </div>`;
+        }
 
-        resultDiv.innerHTML = `
-            <div class="stats-player-name">${currentData.name}</div>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-value">${stats.kd}</div>
-                    <div class="stat-label">K/D</div>
+        if (isRanked) {
+            const tierText = stats.tier ? `${stats.tier} ${stats.subTier || ''}` : '-';
+            const rpText = stats.rankPoint ? `${Math.round(stats.rankPoint)} RP` : '';
+            const record = `${stats.wins}승 ${stats.roundsPlayed - stats.wins}패`;
+
+            return `
+                <div class="stats-mode-card ranked">
+                    <div class="mode-card-title">${label} <span class="mode-card-record">${record}</span></div>
+                    <div class="mode-card-tier">${tierText} ${rpText}</div>
+                    <div class="mode-card-stats">
+                        <div><span class="mc-label">K/D</span> <span class="mc-value">${stats.kd}</span></div>
+                        <div><span class="mc-label">승률</span> <span class="mc-value">${stats.winRate}%</span></div>
+                        <div><span class="mc-label">Top10</span> <span class="mc-value">${stats.top10Rate}%</span></div>
+                    </div>
+                    <div class="mode-card-stats">
+                        <div><span class="mc-label">평균 딜량</span> <span class="mc-value">${stats.avgDamage}</span></div>
+                        <div><span class="mc-label">게임 수</span> <span class="mc-value">${stats.roundsPlayed}</span></div>
+                        <div><span class="mc-label">평균 등수</span> <span class="mc-value">#${stats.avgRank}</span></div>
+                    </div>
+                </div>`;
+        }
+
+        // Normal mode
+        const record = `${stats.wins}승 ${stats.deaths}패`;
+        return `
+            <div class="stats-mode-card normal">
+                <div class="mode-card-title">${label} <span class="mode-card-record">${record}</span></div>
+                <div class="mode-card-stats">
+                    <div><span class="mc-label">K/D</span> <span class="mc-value">${stats.kd}</span></div>
+                    <div><span class="mc-label">승률</span> <span class="mc-value">${stats.winRate}%</span></div>
+                    <div><span class="mc-label">Top10</span> <span class="mc-value">${stats.top10Rate}%</span></div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-value">${stats.winRate}%</div>
-                    <div class="stat-label">승률</div>
+                <div class="mode-card-stats">
+                    <div><span class="mc-label">평균 딜량</span> <span class="mc-value">${stats.avgDamage}</span></div>
+                    <div><span class="mc-label">게임 수</span> <span class="mc-value">${stats.roundsPlayed}</span></div>
+                    <div><span class="mc-label">헤드샷</span> <span class="mc-value">${stats.headshotRate}%</span></div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-value">${stats.avgDamage}</div>
-                    <div class="stat-label">평균 딜</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">${stats.roundsPlayed}</div>
-                    <div class="stat-label">매치</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">${stats.kills}</div>
-                    <div class="stat-label">킬</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">${stats.top10Rate}%</div>
-                    <div class="stat-label">Top10</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">${stats.headshotRate}%</div>
-                    <div class="stat-label">헤드샷</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">${Math.round(stats.longestKill)}m</div>
-                    <div class="stat-label">최장 킬</div>
-                </div>
-            </div>
-            <div class="stats-detail">
-                <span>${stats.wins}승 ${stats.deaths}패</span>
-                <span>어시: ${stats.assists}</span>
-            </div>
-        `;
+            </div>`;
     }
 
     return { init };

@@ -18,10 +18,10 @@
         <div class="header-maps">
             <button class="map-tab active" data-map="erangel">에란겔</button>
             <button class="map-tab" data-map="miramar">미라마</button>
-            <button class="map-tab" data-map="sanhok">사녹</button>
             <button class="map-tab" data-map="vikendi">비켄디</button>
             <button class="map-tab" data-map="taego">태이고</button>
             <button class="map-tab" data-map="rondo">론도</button>
+            <button class="map-tab" data-map="sanhok">사녹</button>
         </div>
         <div class="header-right">
             <span id="map-info" class="map-info">에란겔 (8×8km)</span>
@@ -80,11 +80,16 @@
                 <input type="text" id="stats-nickname" class="stats-input" placeholder="닉네임 입력">
                 <button id="btn-stats-search" class="btn-stats-search">검색</button>
             </div>
-            <select id="stats-platform" class="stats-platform">
-                <option value="kakao">카카오</option>
-                <option value="steam">스팀</option>
-            </select>
-            <div id="stats-mode-tabs" class="stats-mode-tabs"></div>
+            <div class="stats-options-row">
+                <select id="stats-platform" class="stats-select">
+                    <option value="kakao">카카오</option>
+                    <option value="steam">스팀</option>
+                </select>
+                <div class="stats-perspective-toggle">
+                    <button class="perspective-btn active" data-perspective="tpp">TPP</button>
+                    <button class="perspective-btn" data-perspective="fpp">FPP</button>
+                </div>
+            </div>
             <div id="stats-result" class="stats-result"></div>
         </div>
 
