@@ -37,6 +37,11 @@ module.exports = async function handler(req, res) {
         const playerId = player.id;
         const playerName = player.attributes.name;
 
+        // 최근 매치 ID 목록 추출
+        const matchIds = (player.relationships && player.relationships.matches && player.relationships.matches.data)
+            ? player.relationships.matches.data.map(m => m.id)
+            : [];
+
         // Step 2: Get current season
         const seasonsRes = await fetch(`${PUBG_BASE}/shards/${shard}/seasons`, { headers });
         if (!seasonsRes.ok) return res.status(500).json({ error: '시즌 정보를 가져올 수 없습니다' });
@@ -78,7 +83,8 @@ module.exports = async function handler(req, res) {
             platform: shard,
             seasonId,
             normal: normalModes,
-            ranked: rankedModes
+            ranked: rankedModes,
+            matchIds
         });
 
     } catch (err) {
@@ -131,11 +137,11 @@ function extractRankedStats(rankedGameModeStats) {
             deaths: s.deaths,
             assists: s.assists,
             damageDealt: s.damageDealt,
-            top10s: s.top10s,
+            top10s: s.top10s || 0,
             kda: s.kda ? s.kda.toFixed(2) : ((s.kills + s.assists) / Math.max(s.deaths, 1)).toFixed(2),
             kd: s.deaths > 0 ? (s.kills / s.deaths).toFixed(2) : s.kills.toFixed(2),
             winRate: ((s.wins / s.roundsPlayed) * 100).toFixed(1),
-            top10Rate: ((s.top10s / s.roundsPlayed) * 100).toFixed(1),
+            top10Rate: s.top10s ? ((s.top10s / s.roundsPlayed) * 100).toFixed(1) : '-',
             avgDamage: s.damageDealt > 0 ? (s.damageDealt / s.roundsPlayed).toFixed(0) : '0',
             avgRank: s.avgRank ? s.avgRank.toFixed(1) : '-',
             tier: s.currentTier ? s.currentTier.tier : null,

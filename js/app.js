@@ -93,12 +93,9 @@
     }
 
     function initUI() {
-        // 맵 선택 탭
-        document.querySelectorAll('.map-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                const mapId = this.dataset.map;
-                loadMap(mapId);
-            });
+        // 맵 선택 드롭다운
+        document.getElementById('map-select').addEventListener('change', function() {
+            loadMap(this.value);
         });
 
         // 비행경로 버튼
@@ -136,8 +133,18 @@
             });
         });
 
-        // 초기화 버튼
-        document.getElementById('btn-reset').addEventListener('click', resetAll);
+        // 개별 초기화 버튼
+        document.getElementById('btn-reset-flight').addEventListener('click', function() {
+            FlightPath.reset();
+        });
+        document.getElementById('btn-reset-landing').addEventListener('click', function() {
+            Parachute.reset();
+        });
+
+        // 전적 버튼
+        document.getElementById('btn-open-stats').addEventListener('click', function() {
+            Stats.open();
+        });
 
         // 키보드 단축키
         document.addEventListener('keydown', function(e) {
@@ -189,10 +196,8 @@
             return;
         }
 
-        // UI 업데이트
-        document.querySelectorAll('.map-tab').forEach(tab => {
-            tab.classList.toggle('active', tab.dataset.map === mapId);
-        });
+        // 드롭다운 동기화
+        document.getElementById('map-select').value = mapId;
 
         // 기존 요소 제거
         resetAll();
@@ -245,10 +250,6 @@
 
         // 그리드 그리기
         drawGrid();
-
-        // 맵 크기 정보 업데이트
-        document.getElementById('map-info').textContent =
-            `${currentMapConfig.name} (${currentMapConfig.sizeKm}×${currentMapConfig.sizeKm}km)`;
     }
 
     // 그리드 그리기 (1km + 100m 간격)

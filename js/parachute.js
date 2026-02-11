@@ -180,68 +180,8 @@ const Parachute = (function() {
 
                 const gameCoords = latLngToGameCoords(pt.y, pt.x, mapConfig);
 
-                allResults.push({
-                    radiusMeters: meters,
-                    color: color,
-                    coords: gameCoords,
-                    distToLanding: Math.round(distToLandingMeters),
-                    distFromStart: Math.round(distFromStartMeters),
-                    flightTime: Math.round(flightTime)
-                });
             });
         });
-
-        showResult(allResults, path != null);
-    }
-
-    function showResult(results, hasFlightPath) {
-        const panel = document.getElementById('result-panel');
-        const content = document.getElementById('result-content');
-
-        if (results.length === 0) {
-            if (landingPoint && hasFlightPath) {
-                panel.style.display = 'block';
-                content.innerHTML = `
-                    <div class="result-warning">
-                        비행경로와 교차하지 않습니다.<br>
-                        더 가까운 지점을 선택하거나 거리를 늘려주세요.
-                    </div>
-                `;
-            } else if (landingPoint && radiusValues.length > 0) {
-                // 비행경로 없이 원만 표시된 상태
-                panel.style.display = 'none';
-            } else {
-                panel.style.display = 'none';
-            }
-            return;
-        }
-
-        let html = `<div class="result-header">점프 지점 정보</div>`;
-
-        results.forEach((r, i) => {
-            html += `
-                <div class="result-item">
-                    <div class="result-item-title" style="color:${r.color}">
-                        ${r.radiusMeters}m 점프 지점
-                    </div>
-                    <div class="result-row">
-                        <span class="result-label">좌표:</span>
-                        <span class="result-value">${r.coords.x}m, ${r.coords.y}m</span>
-                    </div>
-                    <div class="result-row">
-                        <span class="result-label">착지까지 거리:</span>
-                        <span class="result-value">${r.distToLanding}m</span>
-                    </div>
-                    <div class="result-row">
-                        <span class="result-label">진입점부터:</span>
-                        <span class="result-value">${r.distFromStart}m (~${r.flightTime}초)</span>
-                    </div>
-                </div>
-            `;
-        });
-
-        panel.style.display = 'block';
-        content.innerHTML = html;
     }
 
     function clearVisuals() {
@@ -269,7 +209,6 @@ const Parachute = (function() {
         const btn = document.getElementById('btn-landing');
         btn.classList.remove('active', 'complete');
         document.getElementById('parachute-status').textContent = '';
-        document.getElementById('result-panel').style.display = 'none';
     }
 
     return { init, updateConfig, activate, deactivate, setRadius, setRadiusValues, onFlightPathChange, reset };

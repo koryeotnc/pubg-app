@@ -42,50 +42,47 @@ body {
     white-space: nowrap;
 }
 
-.header-maps {
+.header-center {
     display: flex;
-    gap: 4px;
-    overflow-x: auto;
+    align-items: center;
+    gap: 8px;
     flex: 1;
-    scrollbar-width: none;
 }
 
-.header-maps::-webkit-scrollbar {
-    display: none;
-}
-
-.map-tab {
+.map-select {
+    background: rgba(226, 183, 20, 0.12);
+    border: 1px solid rgba(226, 183, 20, 0.4);
+    border-radius: 6px;
     padding: 6px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.05);
-    color: #aaa;
-    cursor: pointer;
+    color: #e2b714;
     font-family: 'Noto Sans KR', sans-serif;
     font-size: 13px;
-    white-space: nowrap;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
     transition: all 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23e2b714'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
 }
 
-.map-tab:hover {
-    background: rgba(226, 183, 20, 0.15);
-    color: #e2b714;
-    border-color: rgba(226, 183, 20, 0.4);
-}
-
-.map-tab.active {
-    background: rgba(226, 183, 20, 0.2);
-    color: #e2b714;
+.map-select:hover {
+    background-color: rgba(226, 183, 20, 0.2);
     border-color: #e2b714;
 }
 
-.header-right {
-    flex-shrink: 0;
+.map-select:focus {
+    border-color: #e2b714;
+    box-shadow: 0 0 0 2px rgba(226, 183, 20, 0.2);
 }
 
-.map-info {
-    font-size: 12px;
-    color: #888;
+.map-select option {
+    background: #0f0f23;
+    color: #e0e0e0;
+    padding: 8px;
 }
 
 /* ===== 맵 ===== */
@@ -244,22 +241,36 @@ body {
     font-size: 16px;
 }
 
-.btn-reset {
-    width: 100%;
-    padding: 8px 12px;
-    background: rgba(244, 67, 54, 0.15);
-    border: 1px solid rgba(244, 67, 54, 0.3);
+/* 버튼 행 (메인 버튼 + 리셋) */
+.btn-row {
+    display: flex;
+    gap: 6px;
+}
+
+.btn-row .btn-tool {
+    flex: 1;
+}
+
+.btn-reset-small {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid rgba(244, 67, 54, 0.25);
     border-radius: 6px;
-    color: #f44336;
+    color: rgba(244, 67, 54, 0.6);
     cursor: pointer;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 13px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.2s;
 }
 
-.btn-reset:hover {
+.btn-reset-small:hover {
     background: rgba(244, 67, 54, 0.25);
     border-color: #f44336;
+    color: #f44336;
 }
 
 /* ===== 상태 텍스트 ===== */
@@ -403,74 +414,6 @@ body {
     font-variant-numeric: tabular-nums;
 }
 
-/* ===== 결과 패널 ===== */
-.result-panel {
-    position: fixed;
-    bottom: 40px;
-    right: 10px;
-    width: 280px;
-    max-height: calc(100vh - 120px);
-    overflow-y: auto;
-    background: rgba(15, 15, 35, 0.92);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 255, 136, 0.3);
-    border-radius: 8px;
-    padding: 12px;
-    z-index: 999;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0,255,136,0.2) transparent;
-}
-
-.result-header {
-    font-size: 14px;
-    font-weight: 500;
-    color: #00ff88;
-    margin-bottom: 10px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid rgba(0, 255, 136, 0.2);
-}
-
-.result-item {
-    margin-bottom: 10px;
-    padding: 8px;
-    background: rgba(0, 255, 136, 0.05);
-    border-radius: 4px;
-}
-
-.result-item:last-child {
-    margin-bottom: 0;
-}
-
-.result-item-title {
-    font-size: 13px;
-    font-weight: 500;
-    color: #00ff88;
-    margin-bottom: 4px;
-}
-
-.result-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    padding: 2px 0;
-}
-
-.result-label {
-    color: #888;
-}
-
-.result-value {
-    color: #e0e0e0;
-    font-variant-numeric: tabular-nums;
-}
-
-.result-warning {
-    color: #ff9800;
-    font-size: 12px;
-    line-height: 1.5;
-    text-align: center;
-    padding: 8px;
-}
 
 /* ===== 맵 마커 스타일 ===== */
 .flight-marker {
@@ -581,12 +524,6 @@ body {
         font-size: 14px;
     }
 
-    .result-panel {
-        width: 240px;
-        bottom: 36px;
-        right: 6px;
-    }
-
     .tool-panel.collapsed + #map,
     #map {
         /* JS handles responsive sizing */
@@ -604,11 +541,107 @@ body {
     }
 }
 
-/* ===== 전적 검색 ===== */
-.stats-search-row {
+/* ===== 헤더 전적 버튼 ===== */
+.header-divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.15);
+    margin: 0 4px;
+    flex-shrink: 0;
+}
+
+.header-stats-btn {
+    padding: 6px 14px;
+    border: 1px solid rgba(155, 89, 182, 0.4);
+    border-radius: 4px;
+    background: rgba(155, 89, 182, 0.15);
+    color: #c49bff;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.header-stats-btn:hover {
+    background: rgba(155, 89, 182, 0.3);
+    border-color: rgba(155, 89, 182, 0.6);
+}
+
+/* ===== 전적 오버레이 ===== */
+.stats-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(5, 5, 15, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1100;
     display: flex;
-    gap: 6px;
-    margin-bottom: 6px;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 60px;
+    overflow-y: auto;
+}
+
+.stats-panel {
+    width: 100%;
+    max-width: 700px;
+    max-height: calc(100vh - 80px);
+    background: rgba(15, 15, 35, 0.97);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.2) transparent;
+    margin-bottom: 20px;
+}
+
+.stats-panel::-webkit-scrollbar {
+    width: 5px;
+}
+.stats-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+.stats-panel::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.stats-close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    color: #aaa;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    z-index: 10;
+}
+.stats-close-btn:hover {
+    background: rgba(244, 67, 54, 0.2);
+    border-color: rgba(244, 67, 54, 0.5);
+    color: #f44336;
+}
+
+/* 검색 바 */
+.stats-search-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-right: 40px;
 }
 
 .stats-input {
@@ -616,20 +649,34 @@ body {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 6px;
-    padding: 7px 10px;
+    padding: 10px 14px;
     color: #e0e0e0;
-    font-size: 13px;
+    font-size: 14px;
     font-family: inherit;
     outline: none;
     transition: border-color 0.2s;
 }
-
 .stats-input:focus {
     border-color: #e2b714;
 }
-
 .stats-input::placeholder {
     color: rgba(255, 255, 255, 0.35);
+}
+
+.stats-select {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: #e0e0e0;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+}
+.stats-select option {
+    background: #1a1a2e;
+    color: #e0e0e0;
 }
 
 .btn-stats-search {
@@ -637,40 +684,46 @@ body {
     border: 1px solid rgba(226, 183, 20, 0.5);
     border-radius: 6px;
     color: #e2b714;
-    padding: 7px 12px;
-    font-size: 13px;
-    font-weight: 500;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
     white-space: nowrap;
 }
-
 .btn-stats-search:hover {
     background: rgba(226, 183, 20, 0.4);
 }
 
-.stats-options-row {
+/* 플레이어 헤더 */
+.stats-player-header {
     display: flex;
-    gap: 6px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
     margin-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.stats-select {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    padding: 5px 8px;
-    color: #e0e0e0;
-    font-size: 12px;
-    font-family: inherit;
-    cursor: pointer;
-    outline: none;
+.player-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.stats-select option {
-    background: #1a1a2e;
-    color: #e0e0e0;
+.player-name-display {
+    font-size: 20px;
+    font-weight: 700;
+    color: #e2b714;
+}
+
+.player-platform-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(155, 89, 182, 0.2);
+    color: #c49bff;
+    font-weight: 500;
 }
 
 .stats-perspective-toggle {
@@ -678,84 +731,107 @@ body {
     gap: 2px;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 6px;
-    padding: 2px;
+    padding: 3px;
 }
 
 .perspective-btn {
     background: transparent;
     border: none;
     color: rgba(255, 255, 255, 0.4);
-    padding: 4px 10px;
-    font-size: 12px;
+    padding: 6px 14px;
+    font-size: 13px;
     font-weight: 500;
     cursor: pointer;
     border-radius: 4px;
     transition: all 0.2s;
+    font-family: inherit;
 }
-
 .perspective-btn.active {
     background: rgba(226, 183, 20, 0.3);
     color: #e2b714;
 }
 
-.stats-result {
-    min-height: 20px;
+/* 탭 */
+.stats-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 16px;
+}
+
+.stats-tab {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: -2px;
+    font-family: inherit;
+}
+.stats-tab:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+.stats-tab.active {
+    color: #e2b714;
+    border-bottom-color: #e2b714;
+}
+
+/* 컨텐츠 영역 */
+.stats-content {
+    min-height: 100px;
 }
 
 .stats-loading {
     text-align: center;
     color: rgba(255, 255, 255, 0.5);
-    font-size: 13px;
-    padding: 16px 0;
+    font-size: 14px;
+    padding: 40px 0;
 }
 
 .stats-error {
     text-align: center;
     color: #ff6b6b;
-    font-size: 13px;
-    padding: 12px 0;
-}
-
-.stats-player-name {
-    text-align: center;
-    color: #e2b714;
     font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid rgba(226, 183, 20, 0.2);
+    padding: 30px 0;
 }
 
+/* ===== 개요 탭 ===== */
 .stats-section-header {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
-    padding: 4px 8px;
-    border-radius: 4px;
-    margin-bottom: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    margin-top: 4px;
 }
 
 .ranked-header {
-    background: rgba(100, 60, 180, 0.3);
+    background: rgba(100, 60, 180, 0.25);
     color: #c49bff;
     border-left: 3px solid #9b59b6;
 }
 
 .normal-header {
-    background: rgba(100, 100, 100, 0.2);
+    background: rgba(100, 100, 100, 0.15);
     color: rgba(255, 255, 255, 0.6);
     border-left: 3px solid rgba(255, 255, 255, 0.3);
 }
 
 .stats-cards-row {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 10px;
+    gap: 10px;
+    margin-bottom: 16px;
 }
 
 .stats-mode-card {
-    border-radius: 6px;
-    padding: 8px;
+    flex: 1;
+    border-radius: 8px;
+    padding: 12px;
+    min-width: 0;
 }
 
 .stats-mode-card.ranked {
@@ -772,11 +848,15 @@ body {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.05);
     text-align: center;
-    padding: 10px 8px;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .mode-card-title {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     color: #e0e0e0;
     margin-bottom: 4px;
@@ -791,21 +871,21 @@ body {
 
 .mode-card-empty {
     color: rgba(255, 255, 255, 0.25);
-    font-size: 11px;
-    padding: 4px 0;
+    font-size: 12px;
+    padding: 8px 0;
 }
 
 .mode-card-tier {
     color: #c49bff;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 600;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .mode-card-stats {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
 }
 
 .mode-card-stats > div {
@@ -817,13 +897,209 @@ body {
     display: block;
     font-size: 10px;
     color: rgba(255, 255, 255, 0.35);
+    margin-bottom: 2px;
 }
 
 .mc-value {
     display: block;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     color: #00ff88;
+}
+
+/* ===== 매치 기록 탭 ===== */
+.match-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.match-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 12px 14px;
+    transition: border-color 0.2s;
+}
+.match-item:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+}
+.match-item.win {
+    border-left: 3px solid #e2b714;
+    background: rgba(226, 183, 20, 0.05);
+}
+.match-item.top10 {
+    border-left: 3px solid #00ff88;
+    background: rgba(0, 255, 136, 0.03);
+}
+
+.match-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.match-mode {
+    font-size: 12px;
+    font-weight: 600;
+    color: #e0e0e0;
+}
+
+.match-rank {
+    font-size: 14px;
+    font-weight: 700;
+}
+.match-rank.win {
+    color: #e2b714;
+}
+.match-rank.top10 {
+    color: #00ff88;
+}
+.match-rank.normal {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.match-time {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.35);
+    margin-left: auto;
+}
+
+.match-map {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.match-stats-grid {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.match-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 65px;
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 4px;
+}
+
+.match-stat-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.match-stat-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e0e0e0;
+}
+
+.match-teammates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.match-teammates-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.3);
+    margin-right: 4px;
+}
+
+.teammate-link {
+    font-size: 12px;
+    color: #82b1ff;
+    cursor: pointer;
+    transition: color 0.2s;
+    text-decoration: none;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+}
+.teammate-link:hover {
+    color: #e2b714;
+    text-decoration: underline;
+}
+.teammate-link.self {
+    color: #e2b714;
+    font-weight: 600;
+    cursor: default;
+}
+.teammate-link.self:hover {
+    text-decoration: none;
+}
+
+.match-load-more {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    font-family: inherit;
+    margin-top: 8px;
+}
+.match-load-more:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.7);
+}
+.match-load-more:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* 매치 로딩 스피너 */
+.match-loading {
+    text-align: center;
+    padding: 20px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 13px;
+}
+
+/* ===== 전적 반응형 ===== */
+@media (max-width: 768px) {
+    .stats-panel {
+        max-width: 100%;
+        margin: 0 8px;
+        padding: 14px;
+        border-radius: 8px;
+    }
+
+    .stats-cards-row {
+        flex-direction: column;
+    }
+
+    .stats-search-bar {
+        flex-wrap: wrap;
+        padding-right: 40px;
+    }
+
+    .stats-input {
+        flex: 1 1 100%;
+    }
+
+    .match-stats-grid {
+        gap: 4px;
+    }
+
+    .match-stat {
+        min-width: 55px;
+    }
 }
 
 /* ===== 스크롤바 ===== */
